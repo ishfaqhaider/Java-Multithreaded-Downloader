@@ -1,10 +1,4 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package downloader_gui;
-
-
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -33,14 +27,11 @@ import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author ISHFAQ HAIDER QURESHI BS(Software Engineering) IIUI
+ * https://github.com/ishfaqhaider/Java-Multithreaded-Downloader/
  */
 public class Downloader_GUI {
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
-        // TODO code application logic here
         Downloader_GUI dgui = new Downloader_GUI();
     }
     DLMain dlm;
@@ -58,18 +49,6 @@ public class Downloader_GUI {
     Thread mainthread;
     static String save_dirictory=new String("");
     Downloader_GUI() {
-
-        // Set Proxy        
-        //       System.getProperties().put("proxySet", "true");
-        //     System.getProperties().put("proxyHost", "192.168.10.50");
-        //   System.getProperties().put("proxyPort", "8080");
-
-        /*
-         // Remove Proxy
-         System.getProperties().put("proxySet", "false");
-         System.getProperties().put("proxyHost", "");
-         System.getProperties().put("proxyPort", "");
-         */
 
 
         dlm = new DLMain();
@@ -95,35 +74,15 @@ public class Downloader_GUI {
         dlm.jlTime.setVisible(false);
         dlm.jtfFileName.setVisible(false);
         dlm.jLabelJoin.setVisible(false);
-
         proxfr.setVisible(false);
-
         dlm.jMenu2.setVisible(true);
         dlm.jMenuBar1.setVisible(true);
         dlm.jMenuCon.setVisible(false);
         dlm.jMenuDir.setVisible(true);
         dlm.jMenuProxy.setVisible(true);
-
-
-
         dtm.setColumnIdentifiers(new String[]{"Download ID", "File", "Size", "Complete"});
-
         dlm.jTable.setSelectionMode(0);
-        //dlm.jTable.getse
-
-        //dtm.addRow(new String[]{"DownlD","Fe","Se","Comple"});
-
-        //   dtm.addRow(new String[]{"DownlD","Fe","Se","Comple"});
-
-
         dlm.jTable.setModel(dtm);
-
-
-        //dlm.jScrollPane.setVisible(false); 
-        //dlm.jTable.//
-        //dlm.jTable.setColumnSelectionAllowed(false);
-        //dlm.jTable.setEnabled(false);
-        //dlm.jTable.setRowSelectionAllowed(true);
         dlm.jMenuDir.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -140,14 +99,10 @@ public class Downloader_GUI {
         dlm.jbGetInfo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //temp_job.SetJob((++Main_Job_Id), 8, dlm.jtfUrl.getText());
                 temp_job = new Job();
                 temp_job.SetJob((Main_Job_Id + 1), Current_Connection, dlm.jtfUrl.getText());
-//        Main_Jobs.add(new Job((++Main_Job_Id), Current_Connection, dlm.jtfUrl.getText()));
-                //System.out.println("Job added");//--
                 Main_Jobs.add(temp_job);
                 Main_Job_Id++;
-                //Selected_Job_Id=Main_Job_Id;
                 dlm.jlSize.setText(Main_Jobs.get(Main_Job_Id).Size(Main_Jobs.get(Main_Job_Id).size));
                 dlm.jtfFileName.setText(Main_Jobs.get(Main_Job_Id).FileOnly() + "." + Main_Jobs.get(Main_Job_Id).FileExt());
                 dlm.jLabelFS.setVisible(true);
@@ -171,9 +126,7 @@ public class Downloader_GUI {
         dlm.jTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
                 Selected_Job_Id = dlm.jTable.getSelectedRow();
-                //System.out.println("Selected_Job_Id=" + Selected_Job_Id);//--
             }
         });
         dlm.jMenuProxy.addActionListener(new ActionListener() {
@@ -232,7 +185,6 @@ public class Downloader_GUI {
                 while (true) {
                     UpdateGUI();
                     try {
-                        //Thread.currentThread().setPriority(1);
                         Thread.sleep(1000);
                     } catch (InterruptedException ex) {
                         Logger.getLogger(Downloader_GUI.class.getName()).log(Level.SEVERE, null, ex);
@@ -241,22 +193,14 @@ public class Downloader_GUI {
             }
         };
         mainthread.start();
-
-        /*            
-         Job j=new Job(1, 8,"http://softinpc.com/wp-content/uploads/2013/11/Dell-Optiplex-gx280-windows-7-drivers.jpg");
-         // Job j=new Job(1, 8,"http://199.217.118.144/Getintopc.com/Adobe_After_Effects_CS3_Setup.zip");
-    
-         j.StartJob();
-         */
         dlm.setVisible(true);
     }
 
     void UpdateGUI() {
         if (Selected_Job_Id >= 0 && Main_Jobs.get(Selected_Job_Id).check_my_status == true) {
-            //System.out.println("UpdateGUI: Main");//--
             dtm.setValueAt("" + Main_Jobs.get(Selected_Job_Id).GetState(), Selected_Job_Id, 3);
             if (Selected_Job_Id >= 0 && Main_Jobs.get(Selected_Job_Id).state == 1) // mean there is any job which is running
-            {   // Main_Jobs.get(Selected_Job_Id).Update_State();
+            {   
                 int pb = (int) ((dlm.jProgressBar.getMaximum() / 100) * Main_Jobs.get(Selected_Job_Id).Compelted_Percentage());
                 String dld = Job.Size(Main_Jobs.get(Selected_Job_Id).downloaded);
                 String dld_prcn = formate.format(Main_Jobs.get(Selected_Job_Id).Compelted_Percentage());
@@ -268,8 +212,6 @@ public class Downloader_GUI {
                 dlm.jlRateFig.setText(tr);
                 dlm.jlTime.setText(rtim);
 
-                //System.out.println("PB: "+pb+", DLD: "+dld+", %: "+dld_prcn+", speed: "+tr+", rem: "+rtim);//--
-
                 dlm.jProgressBar.setVisible(true);
                 dlm.jLabelD.setVisible(true);
                 dlm.jlDldFig.setVisible(true);
@@ -280,7 +222,6 @@ public class Downloader_GUI {
                 dlm.jlRateType.setVisible(true);
                 dlm.jLabelTL.setVisible(true);
                 dlm.jlTime.setVisible(true);
-
                 dlm.jLabelJoin.setVisible(false);
             } else if (Selected_Job_Id >= 0 && Main_Jobs.get(Selected_Job_Id).state == 2) // mean the selected file is in joining process
             {
@@ -294,7 +235,6 @@ public class Downloader_GUI {
                 dlm.jlRateType.setVisible(false);
                 dlm.jLabelTL.setVisible(false);
                 dlm.jlTime.setVisible(false);
-                //dlm.jLabelTR
                 dlm.jProgressBar.setValue((int) ((dlm.jProgressBar.getMaximum() / 100) * Main_Jobs.get(Selected_Job_Id).Joining_Percentage()));
                 dlm.jLabelJoin.setVisible(true);
             } else if (Selected_Job_Id >= 0 && Main_Jobs.get(Selected_Job_Id).state == 3) {
@@ -310,11 +250,6 @@ public class Downloader_GUI {
                 dlm.jlTime.setVisible(false);
                 dlm.jLabelJoin.setVisible(false); // Joining Label
 
-                /*dlm.jLabelFS.setVisible(false);
-                 dlm.jLabelFSA.setVisible(false);
-                 dlm.jbStart.setVisible(false);
-                 dlm.jlSize.setVisible(false);
-                 dlm.jtfFileName.setVisible(false);*/
             }
             Main_Jobs.get(Selected_Job_Id).check_my_status = false;
         }
@@ -322,9 +257,7 @@ public class Downloader_GUI {
 }
 
 class Job {
-//final char[] ILLEGAL_CHARACTERS = { '/', '\n', '\r', '\t', '\0', '\f','`', '?', '*', '\\', '<', '>', '|', '\"', ':' };
 final char[] ILLEGAL_CHARACTERS = { '/', '\n', '\r' , '\t', '\0', '\f', '`', '?', '*', '\\', '<', '>', '|', '\"', ':' }; 
-//final String [] ILLEGAL_CHARACTERS = { '/', '\n', '\r', '\t', '\0', '\f','`', '?', '*', '\\', '<', '>', '|', '\"', ':' };
     int NumOfCon = 8; // by default num of connection
     URL url;
     File file;
@@ -381,8 +314,6 @@ File opt;
             name = "" + url.toString().substring(url.toString().lastIndexOf('/') + 1, url.toString().length());
             MakeCorrectName();
             uc.disconnect();
-            //System.out.println(FileOnly()+"."+FileExt());//--
-
         } catch (MalformedURLException ex) {
             Logger.getLogger(Job.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -419,60 +350,36 @@ File opt;
         state = 1;
         resume_time = System.currentTimeMillis();
         last_update_time = System.currentTimeMillis();
-        //opt=new File(""+FileOnly()+"."+FileExt());
         for (int i = 1; i <= NumOfCon; i++) {
             st = (i - 1) * ((size + 1) / NumOfCon);
             en = ((i * ((size + 1) / NumOfCon)) - 1) + ((i / NumOfCon) * (size - ((i * ((size + 1) / NumOfCon)) - 1)));
-
-            //temp = new Conn(i, url.toString(), st, en, (JobIndex + "part" + i));
             temp = new Conn(i, url.toString(), st, en, (FileOnly()+"."+FileExt()));
-            
             jobList.add(temp);
             StartJob_int1 = i;
-            /*
-             new Thread(){
-             @Override
-             public void run(){
-             Thread.currentThread().setPriority(10);
-             jobList.get(Con_JL_Index(StartJob_int1)).run();
-             //temp.run();
-             }
-             }.start();
-             */
-            //StartJob_int1=i;
-            //jobList.get(Con_JL_Index(StartJob_int1)).start();
             temp.setPriority(10);
             temp.start();
-            //System.out.println("In Job.Start() Loop="+i);//--
         }
-        //System.out.println("eof Job.Start()");//--
         new Thread() {
             public void run() {
                 while (!All_Finish().equals(true)) {
-                    //Update_State();
                     Thread.currentThread().setPriority(1);
                     if (check_my_status == false) {
-                        //System.out.println("Job Joining thread");//--
                         Update_State();
                     }
 
                     try {
                         Thread.sleep(1000);
-                        //Thread.yield();
                     } catch (InterruptedException ex) {
                         Logger.getLogger(Job.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
                 Thread.currentThread().setPriority(5);
                 state = 2;
-                //Join();
-                
                 state = 3;
                 check_my_status = true;                
             }
         }.start();
     }
-
     Boolean All_Finish() {
         for (int i = 0; i < NumOfCon; i++) {
             if (jobList.get(i).finish == false) {
@@ -511,7 +418,6 @@ File opt;
                 ip = new File(JobIndex + "part" + i);
                 while (!ip.delete()) {
                 }
-                //System.out.println(JobIndex+"part"+i+" Deleted***");//--
             }
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Job.class.getName()).log(Level.SEVERE, null, ex);
@@ -521,24 +427,13 @@ File opt;
 
 
     }
-
     void Update_State() {
-        /*    Float temp_t=new Float(0);
-         Float temp_b=new Float(0);    
-         temp_t=Float.parseFloat(Long.toString(System.currentTimeMillis()-last_update_time));
-         last_update_time+=Long.parseLong(Float.toString(temp_t));
-         temp_b=Float.parseFloat(Long.toString(CalculateDownloaded()-downloaded)); // difference
-         downloaded+=Long.parseLong(Float.toString(temp_b)); // add difference to total downloaded bytes
-         transfer_rate=temp_b/temp_t;
-
-         */
         Long temp_t = new Long(0);
         Long temp_b = new Long(0);
         temp_t = System.currentTimeMillis() - last_update_time;
         last_update_time += temp_t;
         temp_b = CalculateDownloaded() - downloaded; // difference
         downloaded += temp_b; // add difference to total downloaded bytes
-
         transfer_rate = (float) temp_b / temp_t;
         remaining_time_ms = (long) ((size - downloaded) / transfer_rate);
         check_my_status = true;
@@ -630,7 +525,6 @@ File opt;
 }
 
 class Conn extends Thread {
-
     int indx = -1; // which part is this of main file
     URL url;
     Long start; // starting byte
@@ -639,12 +533,10 @@ class Conn extends Thread {
     int data = -1; // curent byte(data on byte), not sequence num of byte
     HttpURLConnection uc;
     RandomAccessFile file;
-
     Thread thread;
     InputStream ips;
     FileOutputStream fos;
     Boolean finish = new Boolean(false);
-
     Long Rem_Bytes() {
         return (end - count);
     }
@@ -657,8 +549,6 @@ class Conn extends Thread {
             url = new URL("" + path);
             file = new RandomAccessFile(fl,"rw");
             file.seek(start);
-            //System.out.println("eof Conn(constructor)");//--
-
         } catch (MalformedURLException ex) {
             Logger.getLogger(Conn.class.getName()).log(Level.SEVERE, null, ex);
         } catch (FileNotFoundException ex) {
@@ -688,18 +578,12 @@ class Conn extends Thread {
         OpenConnection();
         try {
             ips = uc.getInputStream();
-                //RandomAccessFile file2=new RandomAccessFile(file,"rw");
-            //fos = new FileOutputStream(file2);
-              //file2.seek(start);
             while ((data = ips.read()) != -1) {   //System.out.println("Connection:"+indx);//--
-                //fos.write(data);
                 file.write(data);
                 count++;
             }
-            //fos.close();
             file.close();
             finish = true;
-            //System.out.println("eof Conn.Start()");//--
         } catch (IOException ex) {
             Logger.getLogger(Conn.class.getName()).log(Level.SEVERE, null, ex);
         }
