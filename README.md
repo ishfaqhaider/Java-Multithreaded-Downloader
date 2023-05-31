@@ -10,6 +10,8 @@ Proxy and number of connections can be change.
 
 Note: Input URL in http format. i.e http://www.somedomain.com/abc/somefile.exe
 
+Download JAR : https://github.com/ishfaqhaider/Java-Multithreaded-Downloader/blob/master/dist/Downloader_GUI.jar
+
 ![alt tag](https://raw.githubusercontent.com/ishfaqhaider/Java-Multithreaded-Downloader/master/1%20GetFileInfo.png)
 
 ![alt tag](https://raw.githubusercontent.com/ishfaqhaider/Java-Multithreaded-Downloader/master/2%20Proxy%26ConnectionSetings.png)
